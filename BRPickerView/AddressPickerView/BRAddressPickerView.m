@@ -158,14 +158,14 @@
         proviceModel.code = proviceDic[@"code"];
         proviceModel.name = proviceDic[@"name"];
         proviceModel.index = [self.dataSource indexOfObject:proviceDic];
-        NSArray *citylist = proviceDic[@"citylist"];
+        NSArray *citylist = proviceDic[@"sub"];
         NSMutableArray *tempArr2 = [NSMutableArray array];
         for (NSDictionary *cityDic in citylist) {
             BRCityModel *cityModel = [[BRCityModel alloc]init];
             cityModel.code = cityDic[@"code"];
             cityModel.name = cityDic[@"name"];
             cityModel.index = [citylist indexOfObject:cityDic];
-            NSArray *arealist = cityDic[@"arealist"];
+            NSArray *arealist = cityDic[@"sub"];
             NSMutableArray *tempArr3 = [NSMutableArray array];
             for (NSDictionary *areaDic in arealist) {
                 BRAreaModel *areaModel = [[BRAreaModel alloc]init];
@@ -174,10 +174,10 @@
                 areaModel.index = [arealist indexOfObject:areaDic];
                 [tempArr3 addObject:areaModel];
             }
-            cityModel.arealist = [tempArr3 copy];
+            cityModel.sub = [tempArr3 copy];
             [tempArr2 addObject:cityModel];
         }
-        proviceModel.citylist = [tempArr2 copy];
+        proviceModel.sub = [tempArr2 copy];
         [tempArr1 addObject:proviceModel];
     }
     self.provinceModelArr = [tempArr1 copy];
@@ -273,15 +273,15 @@
 - (NSArray *)getCityModelArray:(NSInteger)provinceIndex {
     BRProvinceModel *provinceModel = self.provinceModelArr[provinceIndex];
     // 返回城市模型数组
-    return provinceModel.citylist;
+    return provinceModel.sub;
 }
 
 // 根据 省索引和城市索引 获取 区域模型数组
 - (NSArray *)getAreaModelArray:(NSInteger)provinceIndex cityIndex:(NSInteger)cityIndex {
     BRProvinceModel *provinceModel = self.provinceModelArr[provinceIndex];
-    BRCityModel *cityModel = provinceModel.citylist[cityIndex];
+    BRCityModel *cityModel = provinceModel.sub[cityIndex];
     // 返回地区模型数组
-    return cityModel.arealist;
+    return cityModel.sub;
 }
 
 #pragma mark - 初始化子视图
